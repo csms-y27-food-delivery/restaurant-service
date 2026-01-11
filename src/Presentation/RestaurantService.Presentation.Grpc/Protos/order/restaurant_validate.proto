@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package restaurant.order;
+
+option csharp_namespace = "RestaurantService.Presentation.Grpc.Protos.Order.V1";
+
+import "Common/common.proto";
+
+message DishResponse {
+  int64 dish_id = 1;
+  string name = 2;
+  int64 price = 3;
+  restaurant.common.FoodCategory category = 4;
+}
+
+message ValidateOrderRequest {
+  int64 restaurant_id = 1;
+  repeated string dish_names = 2;
+  restaurant.common.Location customer_location = 3;
+}
+
+message ValidateOrderResponse {
+  bool is_success = 1;
+  optional string description = 2;
+  repeated DishResponse dishes = 3;
+}
+
+service RestaurantValidateService {
+  rpc ValidateOrder(ValidateOrderRequest) returns (ValidateOrderResponse);
+}

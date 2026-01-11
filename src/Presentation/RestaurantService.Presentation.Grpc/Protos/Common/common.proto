@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package restaurant.common;
+
+option csharp_namespace = "RestaurantService.Presentation.Grpc.Protos.Common";
+
+message Location {
+  double latitude = 1;
+  double longitude = 2;
+}
+
+message DeliveryZoneDto {
+  double delivery_radius_km = 1;
+  Location center = 2;
+}
+
+message DayScheduleDto {
+  DayOfWeek day = 1;
+  int32 open_minutes = 3;
+  int32 close_minutes = 4;
+}
+
+message WorkScheduleDto {
+  repeated DayScheduleDto days = 1;
+}
+
+message RestaurantInfo {
+  int64 restaurant_id = 1;
+  string name = 2;
+  string address = 3;
+  DeliveryZoneDto delivery_zone = 4;
+  WorkScheduleDto schedule = 5;
+}
+
+message DishInfo {
+  int64 dish_id = 1;
+  int64 restaurant_id = 2;
+  string name = 3;
+  int64 price = 4;
+  bool availability = 5;
+  FoodCategory category = 6;
+}
+
+enum FoodCategory {
+  FOOD_CATEGORY_UNSPECIFIED = 0;
+  FOOD_CATEGORY_APPETIZERS = 1;
+  FOOD_CATEGORY_MAIN_COURSES = 2;
+  FOOD_CATEGORY_DESSERTS = 3;
+  FOOD_CATEGORY_BEVERAGES = 4;
+  FOOD_CATEGORY_SIDES = 5;
+}
+
+enum DayOfWeek {
+  DAY_OF_WEEK_UNSPECIFIED = 0;
+  DAY_OF_WEEK_SUNDAY = 1;
+  DAY_OF_WEEK_MONDAY = 2;
+  DAY_OF_WEEK_TUESDAY = 3;
+  DAY_OF_WEEK_WEDNESDAY = 4;
+  DAY_OF_WEEK_THURSDAY = 5;
+  DAY_OF_WEEK_FRIDAY = 6;
+  DAY_OF_WEEK_SATURDAY = 7;
+}

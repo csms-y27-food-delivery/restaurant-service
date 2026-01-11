@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    
+    <ItemGroup>
+        <PackageReference Include="FluentAssertions" />
+        <PackageReference Include="NSubstitute" />
+        <PackageReference Include="Xunit" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Application\RestaurantService.Application.Abstractions\RestaurantService.Application.Abstractions.csproj" />
+      <ProjectReference Include="..\..\src\Application\RestaurantService.Application\RestaurantService.Application.csproj" />
+      <ProjectReference Include="..\..\src\Infrastructure\RestaurantService.Infrastructure.Persistence\RestaurantService.Infrastructure.Persistence.csproj" />
+    </ItemGroup>
+
+</Project>

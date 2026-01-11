@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  restaurant-db:
+    image: postgres:16-alpine
+    container_name: restaurant-db
+    environment:
+      POSTGRES_DB: restaurant_service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - restaurant_db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4:8
+    container_name: restaurant-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - restaurant-db
+    restart: unless-stopped
+
+volumes:
+  restaurant_db_data:
