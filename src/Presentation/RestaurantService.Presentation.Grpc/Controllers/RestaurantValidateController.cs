@@ -28,6 +28,7 @@ public sealed class RestaurantValidateController : RestaurantValidateService.Res
         var response = new ValidateOrderResponse
         {
             IsSuccess = result.IsSuccess,
+            DeliveryZone = result.DeliveryZone.ToGrpcDeliveryZone(),
         };
 
         if (result.Description is not null)

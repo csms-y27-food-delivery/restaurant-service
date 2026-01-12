@@ -29,17 +29,17 @@ public sealed class RestaurantValidateService : IRestaurantValidateService
         Coordinate customerLocation,
         CancellationToken cancellationToken)
     {
-        if (dishNames.Count == 0)
-            return OrderValidationResult.Fail("Order has no dishes.");
-
         Restaurant restaurant = await _restaurantRepository.GetByIdAsync(restaurantId, cancellationToken);
         DateTimeOffset now = _timeProvider.GetLocalNow();
 
+        if (dishNames.Count == 0)
+            return OrderValidationResult.Fail(restaurant.RestaurantDeliveryZone, "Order has no dishes.");
+
         if (!RestaurantRules.IsRestaurantOpen(restaurant.RestaurantSchedule, now))
-            return OrderValidationResult.Fail("Restaurant is closed.");
+            return OrderValidationResult.Fail(restaurant.RestaurantDeliveryZone, "Restaurant is closed.");
 
         if (!RestaurantRules.IsDeliveryAvailable(customerLocation, restaurant.RestaurantDeliveryZone))
-            return OrderValidationResult.Fail("Delivery is not available for this location.");
+            return OrderValidationResult.Fail(restaurant.RestaurantDeliveryZone, "Delivery is not available for this location.");
 
         string[] normalizedRequested = dishNames.Select(DishName.Normalize).ToArray();
 
@@ -63,7 +63,7 @@ public sealed class RestaurantValidateService : IRestaurantValidateService
 
         if (missing.Length > 0)
         {
-            return OrderValidationResult.Fail("Some dishes do not exist for this restaurant: " + string.Join(", ", missing));
+            return OrderValidationResult.Fail(restaurant.RestaurantDeliveryZone, "Some dishes do not exist for this restaurant: " + string.Join(", ", missing));
         }
 
         string[] unavailable = dishByName.Values
@@ -73,13 +73,13 @@ public sealed class RestaurantValidateService : IRestaurantValidateService
 
         if (unavailable.Length > 0)
         {
-            return OrderValidationResult.Fail("Some dishes are not available: " + string.Join(", ", unavailable));
+            return OrderValidationResult.Fail(restaurant.RestaurantDeliveryZone, "Some dishes are not available: " + string.Join(", ", unavailable));
         }
 
         var ordered = normalizedRequested
             .Select(name => dishByName[name])
             .ToList();
 
-        return OrderValidationResult.Success(ordered);
+        return OrderValidationResult.Success(restaurant.RestaurantDeliveryZone, ordered);
     }
 }

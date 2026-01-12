@@ -23,6 +23,7 @@ message ValidateOrderResponse {
   bool is_success = 1;
   optional string description = 2;
   repeated DishResponse dishes = 3;
+  restaurant.common.DeliveryZoneDto delivery_zone = 4;
 }
 
 service RestaurantValidateService {

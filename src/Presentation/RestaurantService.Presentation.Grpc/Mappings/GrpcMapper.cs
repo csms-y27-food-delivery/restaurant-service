@@ -45,6 +45,15 @@ internal static class GrpcMapper
         };
     }
 
+    public static DeliveryZoneDto ToGrpcDeliveryZone(this DeliveryZone zone)
+    {
+        return new DeliveryZoneDto
+        {
+            DeliveryRadiusKm = zone.DeliveryRadius,
+            Center = zone.Center.ToGrpcLocation(),
+        };
+    }
+
     private static DayOfWeek ToGrpcDay(this System.DayOfWeek day)
     {
         return day switch
@@ -76,15 +85,6 @@ internal static class GrpcMapper
     private static Location ToGrpcLocation(this Coordinate coordinate)
     {
         return new Location { Latitude = coordinate.Latitude, Longitude = coordinate.Longitude };
-    }
-
-    private static DeliveryZoneDto ToGrpcDeliveryZone(this DeliveryZone zone)
-    {
-        return new DeliveryZoneDto
-        {
-            DeliveryRadiusKm = zone.DeliveryRadius,
-            Center = zone.Center.ToGrpcLocation(),
-        };
     }
 
     private static WorkScheduleDto ToGrpcWorkSchedule(this WorkSchedule schedule)
