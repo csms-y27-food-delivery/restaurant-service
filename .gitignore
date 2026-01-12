@@ -3,3 +3,11 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/.idea/
+
+# JetBrains user settings
+*.DotSettings.user
+*.sln.DotSettings.user
+.idea/
+
+# macOS
+.DS_Store

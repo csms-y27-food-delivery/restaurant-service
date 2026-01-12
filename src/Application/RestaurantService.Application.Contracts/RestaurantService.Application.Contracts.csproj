@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+      <ProjectReference Include="..\RestaurantService.Application.Models\RestaurantService.Application.Models.csproj" />
+    </ItemGroup>
+
+</Project>

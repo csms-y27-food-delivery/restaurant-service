@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    
+    <ItemGroup>
+        <PackageReference Include="Grpc.Tools"/>
+        <PackageReference Include="Grpc.AspNetCore.Server"/>
+        <PackageReference Include="Google.Protobuf" />
+        <PackageReference Include="Grpc.AspNetCore" />
+        <PackageReference Include="Grpc.AspNetCore.Server.Reflection" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\..\Application\RestaurantService.Application.Contracts\RestaurantService.Application.Contracts.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\RestaurantService.Infrastructure.Persistence\RestaurantService.Infrastructure.Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf ProtoRoot="Protos" Include="Protos\**\*.proto"/>
+    </ItemGroup>
+
+</Project>

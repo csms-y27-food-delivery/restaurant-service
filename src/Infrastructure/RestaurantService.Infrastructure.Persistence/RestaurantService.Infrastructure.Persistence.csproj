@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    
+    <ItemGroup>
+        <PackageReference Include="FluentMigrator" />
+        <PackageReference Include="Npgsql" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" />
+        <PackageReference Include="FluentMigrator.Runner.Postgres" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\..\Application\RestaurantService.Application.Abstractions\RestaurantService.Application.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>

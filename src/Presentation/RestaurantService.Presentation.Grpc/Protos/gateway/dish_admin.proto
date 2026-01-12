@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package restaurant.gateway;
+
+option csharp_namespace = "RestaurantService.Presentation.Grpc.Protos.Gateway.V1";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "Common/common.proto";
+
+message CreateDishRequest {
+  int64 restaurant_id = 1;
+  string name = 2;
+  int64 price = 3;
+  bool availability = 4;
+  restaurant.common.FoodCategory category = 5;
+}
+
+message CreateDishResponse {
+  int64 dish_id = 1;
+}
+
+message GetDishRequest {
+  int64 dish_id = 1;
+}
+
+message GetDishResponse {
+  restaurant.common.DishInfo dish = 1;
+}
+
+message UpdateDishRequest {
+  int64 dish_id = 1;
+  google.protobuf.Int64Value price = 2;
+  google.protobuf.BoolValue availability = 3;
+  optional restaurant.common.FoodCategory category = 4;
+}
+
+message DeleteDishRequest {
+  int64 dish_id = 1;
+}
+
+service DishAdminService {
+  rpc GetDish(GetDishRequest) returns (GetDishResponse);
+  rpc CreateDish(CreateDishRequest) returns (CreateDishResponse);
+  rpc UpdateDish(UpdateDishRequest) returns (google.protobuf.Empty);
+  rpc DeleteDish(DeleteDishRequest) returns (google.protobuf.Empty);
+}

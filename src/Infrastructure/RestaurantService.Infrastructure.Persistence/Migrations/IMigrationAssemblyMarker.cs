@@ -1,0 +1,3 @@
+namespace RestaurantService.Infrastructure.Persistence.Migrations;
+
+public interface IMigrationAssemblyMarker;

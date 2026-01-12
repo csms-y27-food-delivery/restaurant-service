@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package restaurant.gateway;
+
+option csharp_namespace = "RestaurantService.Presentation.Grpc.Protos.Gateway";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "Common/common.proto";
+
+message CreateRestaurantRequest {
+  string name = 1;
+  string address = 2;
+  restaurant.common.DeliveryZoneDto delivery_zone = 3;
+  restaurant.common.WorkScheduleDto schedule = 4;
+}
+
+message CreateRestaurantResponse {
+  int64 restaurant_id = 1;
+}
+
+message GetRestaurantRequest {
+  int64 restaurant_id = 1;
+}
+
+message GetRestaurantResponse {
+  restaurant.common.RestaurantInfo restaurant = 1;
+}
+
+message UpdateRestaurantRequest {
+  int64 restaurant_id = 1;
+  google.protobuf.StringValue name = 2;
+  google.protobuf.StringValue address = 3;
+  optional restaurant.common.DeliveryZoneDto delivery_zone = 4;
+  optional restaurant.common.WorkScheduleDto schedule = 5;
+}
+
+message DeleteRestaurantRequest {
+  int64 restaurant_id = 1;
+}
+
+service RestaurantAdminService {
+  rpc GetRestaurant(GetRestaurantRequest) returns (GetRestaurantResponse);
+  rpc CreateRestaurant(CreateRestaurantRequest) returns (CreateRestaurantResponse);
+  rpc UpdateRestaurant(UpdateRestaurantRequest) returns (google.protobuf.Empty);
+  rpc DeleteRestaurant(DeleteRestaurantRequest) returns (google.protobuf.Empty);
+}
