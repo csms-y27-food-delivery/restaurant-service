@@ -1,0 +1,57 @@
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    container_name: dev-zookeeper
+    restart: unless-stopped
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: dev-kafka
+    restart: unless-stopped
+    depends_on:
+      - zookeeper
+    ports:
+      - "8005:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_LISTENERS: EXTERNAL://:9092,INTERNAL://:9094
+
+      KAFKA_ADVERTISED_LISTENERS: EXTERNAL://localhost:8005,INTERNAL://kafka:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+
+      KAFKA_CREATE_TOPICS: >
+        dish_updates:1:1
+    volumes:
+      - dev-kafka-data:/kafka-data
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: dev-kafka-ui
+    restart: unless-stopped
+    depends_on:
+      - kafka
+    ports:
+      - "8006:8080"
+    volumes:
+      - ./KafkaProtos:/schemas
+    environment:
+      kafka.clusters.0.name: kafka
+      kafka.clusters.0.bootstrapServers: kafka:9094
+
+      kafka.clusters.0.defaultKeySerde: ProtobufFile
+      kafka.clusters.0.defaultValueSerde: ProtobufFile
+
+      kafka.clusters.0.serde.0.name: ProtobufFile
+      kafka.clusters.0.serde.0.properties.protobufFilesDir: /schemas/
+
+      kafka.clusters.0.serde.0.properties.protobufMessageNameForKeyByTopic.dish_updates: restaurant.events.DishUpdatedKey
+      kafka.clusters.0.serde.0.properties.protobufMessageNameByTopic.dish_updates: restaurant.events.DishUpdatedEvent
+
+volumes:
+  dev-kafka-data:

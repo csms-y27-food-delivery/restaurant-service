@@ -8,6 +8,7 @@
       <ProjectReference Include="..\Application\RestaurantService.Application\RestaurantService.Application.csproj" />
       <ProjectReference Include="..\Infrastructure\RestaurantService.Infrastructure.Persistence\RestaurantService.Infrastructure.Persistence.csproj" />
       <ProjectReference Include="..\Presentation\RestaurantService.Presentation.Grpc\RestaurantService.Presentation.Grpc.csproj" />
+      <ProjectReference Include="..\Presentation\RestaurantService.Presentation.Kafka\RestaurantService.Presentation.Kafka.csproj" />
     </ItemGroup>
     
 </Project>
